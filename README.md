@@ -19,6 +19,7 @@ We have Arduino with sensors connected to it, we have RaspberryPi connected to t
 To find correlation we have a lambda function which fired by cron event from CloudWatch twice a day. This lambda constructs all the permutations of the "sensors" tables and "non-sensor" tables and fire another lambda for each pair. The second lambda function finds a correlation of the data from the tables and if correlation greater then 0.7 it creates JSON file in the S3 bucket with names of the tables and data from them.
 The frontend part is the static HTML/JS page which goes to the S3, get all the files from the bucket and creates charts based on these data.
 
+![alt text](./cloudcraft.png "Logo Title Text 1")
 
 ##### Yes you really need numpy here in the folder because it was compiled especially for the AWS AMI which uses in the lambda containers
 
