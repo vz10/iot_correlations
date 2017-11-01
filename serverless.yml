@@ -54,6 +54,8 @@ functions:
     handler: handler.get_table_permutations
   get_currency_data:
     handler: get_currency.main
+  get_twitter_trends:
+    handler: twitter_trends.get_twitter_trends
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -95,3 +97,5 @@ functions:
 #     NewOutput:
 #       Description: "Description for the output"
 #       Value: "Some output value"
+plugins:
+  - serverless-python-requirements

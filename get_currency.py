@@ -5,7 +5,8 @@ import datetime
 import decimal
 import json
 import time
-import urllib.request
+import requests
+
 
 BASE_CURRENCY = 'USD'
 CURRENCIES = ['CNY', 'EUR', 'GBP', 'JPY', 'RUB']
@@ -23,9 +24,8 @@ def get_open_data():
     # with urllib.request.urlopen("http://maps.googleapis.com/maps/api/geocode/json?address=google") as url:
     fixer_url = "http://api.fixer.io/latest?base={}&symbols={}".format(BASE_CURRENCY, ','.join(CURRENCIES))
     print('Loading rates from http://api.fixer.io')
-    with urllib.request.urlopen(fixer_url) as url:
-        data = json.loads(url.read().decode())
-    return data
+    response = requests.get(fixer_url)
+    return json.loads(response.content)
 
 
 def get_open_data_tables(dynamodb):
