@@ -52,6 +52,8 @@ functions:
     handler: handler.find_correlations
   generate_table_pairs:
     handler: handler.get_table_permutations
+  get_currency_data:
+    handler: get_currency.main
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
