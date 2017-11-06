@@ -35,7 +35,7 @@ def get_twitter_trends(handler, content):
         TableName='corr_data',
         Item={
             'type_of_data': {'S': table_name},
-            'time_added': {'N': str(int(time.time()))},
+            'time_added': {'N': str(int(time.time()*1000))},
             'value': {'N': str(twitter_trends)}
         }
     )

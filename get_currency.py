@@ -44,7 +44,7 @@ def main(handler, conent):
     if data.get('date'):
         dynamodb = boto3.resource("dynamodb")
         open_data_tables = get_open_data_tables(dynamodb)
-        timestamp = int(time.time())
+        timestamp = int(time.time())*1000
         for currency, rate in data['rates'].items():
             if currency not in CURRENCIES:
                 continue
