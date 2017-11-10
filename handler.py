@@ -9,7 +9,7 @@ import numpy as np
 import boto3
 
 
-MIN_CORRELATION = 0.7
+MIN_CORRELATION = 0.01
 
 
 def get_values(data, key, cast_to=int):
@@ -19,13 +19,16 @@ def get_values(data, key, cast_to=int):
 
 
 def get_table_permutations(evernt, content):
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket('iotchallenge')
+    bucket.objects.all().delete()
     client = boto3.client('dynamodb')
     data_table_names = [
-        item['table_name']['S'] for item in
+        (item['table_name']['S'], item['description']['S']) for item in
         client.scan(TableName='open_data_tables')['Items']
     ]
     sensor_table_names = [
-        item['table_name']['S'] for item in
+        (item['table_name']['S'], item['description']['S']) for item in
         client.scan(TableName='sensor_data_tables')['Items']
     ]
     lambda_client = boto3.client('lambda')
@@ -53,7 +56,7 @@ def find_correlations(event, content):
             ScanIndexForward=True,
             Limit=1000,
             ExpressionAttributeValues={
-                ':ToD': {'S': table},
+                ':ToD': {'S': table[0][0]},
                 ':start': {'N': str(start_timestamp)}
             }
         )
