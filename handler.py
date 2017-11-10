@@ -42,7 +42,8 @@ def get_table_permutations(evernt, content):
 
 
 def find_correlations(event, content):
-    data_table, sensor_table = event[0], event[1]
+    data_table, data_table_desc = event[0]
+    sensor_table, sensor_table_desc = event[1]
     client = boto3.client('dynamodb')
     start_timestamp = int(
         mktime((datetime.utcnow() - timedelta(hours=24)).timetuple())
@@ -56,7 +57,7 @@ def find_correlations(event, content):
             ScanIndexForward=True,
             Limit=1000,
             ExpressionAttributeValues={
-                ':ToD': {'S': table[0][0]},
+                ':ToD': {'S': table},
                 ':start': {'N': str(start_timestamp)}
             }
         )
@@ -80,7 +81,6 @@ def find_correlations(event, content):
         response_data[table] = data[:min_item_count]
         timestamps.update(get_values(response_data[table], 'time_added'))
 
-    # print response_data['sound']
     # compute interpolation and correlation
     interpolations = {}
     linspaced_timestamps = np.linspace(
@@ -98,9 +98,11 @@ def find_correlations(event, content):
     )[0, 1]
 
     if np.isnan(correlation) or correlation < MIN_CORRELATION:
-        return {}
+        return False
 
     response_data['correlation'] = correlation
+    response_data[data_table]['description'] = data_table_desc
+    response_data[sensor_table]['description'] = sensor_table_desc
 
     s3 = boto3.resource('s3')
     object = s3.Object('iotchallenge', '{}_{}.json'.format(data_table, sensor_table))
