@@ -34,12 +34,12 @@ def get_table_permutations(evernt, content):
     lambda_client = boto3.client('lambda')
     for pair in product(data_table_names, sensor_table_names):
         lambda_client.invoke(
-            FunctionName='correlation-dev-find_correlations',
+            FunctionName='iot-corr-dev-find_correlations',
             InvocationType='Event',
             LogType='Tail',
             Payload=json.dumps(pair),
         )
-
+    return True
 
 def find_correlations(event, content):
     data_table, data_table_desc = event[0]
@@ -92,7 +92,7 @@ def find_correlations(event, content):
             get_values(data, 'time_added'),
             get_values(data, 'value', cast_to=float)
         )
-
+    
     correlation = np.corrcoef(
         interpolations[data_table], interpolations[sensor_table]
     )[0, 1]
@@ -101,11 +101,8 @@ def find_correlations(event, content):
         return False
 
     response_data['correlation'] = correlation
-    response_data[data_table]['description'] = data_table_desc
-    response_data[sensor_table]['description'] = sensor_table_desc
-
+    response_data['descriptions'] = {data_table: data_table_desc, sensor_table: sensor_table_desc}
     s3 = boto3.resource('s3')
     object = s3.Object('iotchallenge', '{}_{}.json'.format(data_table, sensor_table))
     object.put(Body=json.dumps(response_data), ACL='public-read')
-
     return True
