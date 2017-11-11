@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #ccc;
+}
+.container {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 15px;
+}
