@@ -14,7 +14,6 @@ class App extends Component {
   }
 
   render(){
-    console.log(this.props.graphs);
     return (
       <div>
         <ButtonAppBar loading={this.props.loading}/>

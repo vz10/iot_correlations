@@ -23192,7 +23192,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log(this.props.graphs);
 	      return _react2['default'].createElement(
 	        'div',
 	        null,
@@ -23270,7 +23269,6 @@
 	          var output = [];
 
 	          var _loop = function (result) {
-	            console.log(results[result].data);
 	            var first_data_name = Object.keys(results[result].data.descriptions)[0];
 	            var second_data_name = Object.keys(results[result].data.descriptions)[1];
 	            var first_data_description = results[result].data.descriptions[first_data_name];
@@ -23304,8 +23302,6 @@
 	          for (var result in results) {
 	            _loop(result);
 	          }
-	          console.log("result", output);
-
 	          dispatch({ "type": "FETCH_GRAPHS_SUCCESS", payload: output });
 	          dispatch({ "type": "LOADING_STATE", payload: false });
 	        })["catch"](function (error) {
@@ -38180,8 +38176,6 @@
 	  _createClass(FullWidthTabs, [{
 	    key: 'handleChange',
 	    value: function handleChange(e, value) {
-	      console.log(value);
-	      // console.log("value", e.target.value)
 	      this.setState({ value: value });
 	    }
 	  }, {

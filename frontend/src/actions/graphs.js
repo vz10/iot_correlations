@@ -15,7 +15,6 @@ export const asyncGetGraphs = () => dispatch => {
           .then(function(results) {
             let output = [];
             for (let result in results){
-              console.log(results[result].data);
               let first_data_name = Object.keys(results[result].data.descriptions)[0];
               let second_data_name = Object.keys(results[result].data.descriptions)[1];
               let first_data_description = results[result].data.descriptions[first_data_name];
@@ -49,8 +48,6 @@ export const asyncGetGraphs = () => dispatch => {
                 })
 
             }
-                console.log("result", output);
-
               dispatch({ "type": "FETCH_GRAPHS_SUCCESS", payload: output });
               dispatch({ "type": "LOADING_STATE", payload: false });
 

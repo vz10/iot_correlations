@@ -39,8 +39,6 @@ class FullWidthTabs extends Component {
   }
 
   handleChange(e, value) {
-    console.log(value)
-    // console.log("value", e.target.value)
     this.setState({ value });
   }
 
