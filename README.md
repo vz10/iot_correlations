@@ -1,6 +1,8 @@
 # iot_correlations*
 Finding curious correlations between IoT sensors and different open data
 
+["The frontend part you can find on the GitHub pages for that project."](https://vz10.github.io/iot_correlations/)
+
 We've got three different explanation for you about what is this project about so you can choose whichever you want. The first is a normal explanation, the second is epic and the last one is physical.
 
 ### Normal explanation
