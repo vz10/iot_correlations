@@ -15,6 +15,12 @@ Have you ever heard about the butterfly effect? (In chaos theory, the butterfly 
 ### Physical explanation
 Have you ever heard about the string theory? In physics, string theory is a theoretical framework in which the point-like particles of particle physics are replaced by one-dimensional objects called strings. So everything in the Universe is strings and everything are waving according to some laws. So if we find to strings which waving very similar in some period of time we can, with a big amount of confident, think that they have similar laws of waving and will wave coherently in the future. So we can try to find such pairs of correlative strings, for example, the air pressure in the Paris may changes very similar to the index of Dow Jones, and looking at the changing of one data flow we can predict the behavior of another.
 
+---
+
+Unfortunately we don't have a lot of connected sensors and not a lot of connected open data streams so there could be only a few correlations found (sometimes there even can be no correlations at all), but we a growing so I hope in nearest future there will be the plenty amount of different curious correlations. So keep in touch :) 
+
+---
+
 ## Now let's go to the technical part
 
 We have Arduino with sensors connected to it, we have RaspberryPi connected to the Arduino that getting all the data from the sensors and send it to the AWS IoT. In the AWS IoT we have a bunch of rules which parse the sensors data and store it in the dynamodb tables. Also, we have scripts on the RaspberryPi which take open data from different APIs and also send it to the dynamodb tables.
