@@ -9,6 +9,10 @@ OPEN_DATA_TABLES = 'open_data_tables'
 
 
 def get_twitter_trends(handler, content):
+    """
+    Get twtiiter trends data from the open data sources
+    Invokes as lambda every 15 minutes
+    """
     table_name = 'twitter_trends'
     client = boto3.client('dynamodb')
     open_data_tables = [

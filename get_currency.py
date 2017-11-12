@@ -40,6 +40,10 @@ def get_open_data_tables(dynamodb):
 
 
 def main(handler, conent):
+    """
+    Get currencies exchage rate from the open data sources
+    Invokes as lambda every 15 minutes
+    """
     data = get_open_data()
     if data.get('date'):
         dynamodb = boto3.resource("dynamodb")

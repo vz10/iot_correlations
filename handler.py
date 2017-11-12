@@ -19,6 +19,11 @@ def get_values(data, key, cast_to=int):
 
 
 def get_table_permutations(evernt, content):
+    """
+    Get all the data names and create pairs of open_data and sensor_data, after
+    creating all the possible pairs invokes lmanda for each of the pait to Check
+    the data correlation coefficient
+    """
     s3 = boto3.resource('s3')
     bucket = s3.Bucket('iotchallenge')
     bucket.objects.all().delete()
@@ -42,6 +47,12 @@ def get_table_permutations(evernt, content):
     return True
 
 def find_correlations(event, content):
+    """
+    Get pair of data sources names, get the data for the DynamoDB table,
+    normalize and interpolate the data and check the correlation coefficient.
+    If the coefficient is greater then MIN_CORRELATION, create a JSON file in the
+    S3 bucket with those data for the frontend part.
+    """
     data_table, data_table_desc = event[0]
     sensor_table, sensor_table_desc = event[1]
     client = boto3.client('dynamodb')
@@ -92,7 +103,7 @@ def find_correlations(event, content):
             get_values(data, 'time_added'),
             get_values(data, 'value', cast_to=float)
         )
-    
+
     correlation = np.corrcoef(
         interpolations[data_table], interpolations[sensor_table]
     )[0, 1]

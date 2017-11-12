@@ -7,6 +7,11 @@ import serial
 import time
 import json
 
+"""
+Get the data from the sensors connected to the Arduino which connected
+to the Raspberry Pi and send them to the AWS IoT service
+"""
+
 SENSORS = {
     'light': {
         'pattern': r'Light:\s+(\d+)',
