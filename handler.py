@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import math
 from time import mktime
 from itertools import product
 from datetime import datetime, timedelta
@@ -9,7 +10,7 @@ import numpy as np
 import boto3
 
 
-MIN_CORRELATION = 0.01
+MIN_CORRELATION = 0.1
 
 
 def get_values(data, key, cast_to=int):
@@ -91,17 +92,19 @@ def find_correlations(event, content):
     for table, data in response_data.iteritems():
         response_data[table] = data[:min_item_count]
         timestamps.update(get_values(response_data[table], 'time_added'))
-
+    for table, data in response_data.iteritems():
+        for index, item in enumerate(response_data[table]):
+            item['value'] = float(item['value'].get('N', item['value'].get('S'))) + math.sin(index)*0.1
     # compute interpolation and correlation
     interpolations = {}
     linspaced_timestamps = np.linspace(
-        min(timestamps), max(timestamps), num=24 # hours in day
+        min(timestamps), max(timestamps), num=100 # hours in day
     )
     for table, data in response_data.iteritems():
         interpolations[table] = np.interp(
             linspaced_timestamps,
             get_values(data, 'time_added'),
-            get_values(data, 'value', cast_to=float)
+            [value['value'] for value in data]
         )
 
     correlation = np.corrcoef(
@@ -110,10 +113,18 @@ def find_correlations(event, content):
 
     if np.isnan(correlation) or correlation < MIN_CORRELATION:
         return False
+    response_data['data'] = {
+        "name": list(linspaced_timestamps),
+    }
+    response_data['data'][data_table_desc] = list(interpolations[data_table])
+    response_data['data'][sensor_table_desc] = list(interpolations[sensor_table])
+
+    del response_data[sensor_table]
+    del response_data[data_table]
 
     response_data['correlation'] = correlation
-    response_data['descriptions'] = {data_table: data_table_desc, sensor_table: sensor_table_desc}
+    response_data['descriptions'] = [data_table_desc, sensor_table_desc]
     s3 = boto3.resource('s3')
     object = s3.Object('iotchallenge', '{}_{}.json'.format(data_table, sensor_table))
     object.put(Body=json.dumps(response_data), ACL='public-read')
-    return True
+    return response_data

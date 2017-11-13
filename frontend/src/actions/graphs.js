@@ -19,33 +19,25 @@ export const asyncGetGraphs = () => dispatch => {
               let second_data_name = Object.keys(results[result].data.descriptions)[1];
               let first_data_description = results[result].data.descriptions[first_data_name];
               let second_data_description = results[result].data.descriptions[second_data_name];
-              let first_data = [];
-              let second_data = [];
-              results[result].data[first_data_name].map((el) => {
-                  let date = new Date(Number(el.time_added.N));
-                  let element = {
-                      name: date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes()
-                  };
-                  element[first_data_description] = Number(el.value.N);
-                  first_data.push(element);
-                });
-              results[result].data[second_data_name].map((el) => {
-                  let date = new Date(Number(el.time_added.N));
-                  let element = {
-                      name: date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes()
-                  };
-                  element[second_data_description] = Number(el.value.S);
-                  second_data.push(element);
-                });
-                output.push({
-                  descriptions: [
-                    first_data_description,
-                    second_data_description
-                  ],
-                  data: [first_data, second_data],
-                  correlation: results[result].data.correlation,
-                  corr: true
-                })
+              let input_data = [];
+              for (let i=0; i < results[result].data.data.name.length; i++){
+                let date = new Date(Number(results[result].data.data.name[i]));
+                let element = {
+                    name: date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes()
+                };
+                element[first_data_description] = Number(results[result].data.data[first_data_description][i]);
+                element[second_data_description] = Number(results[result].data.data[second_data_description][i]);
+                input_data.push(element);
+              };
+              output.push({
+                descriptions: [
+                  first_data_description,
+                  second_data_description
+                ],
+                data: input_data,
+                correlation: results[result].data.correlation,
+                corr: true
+              })
 
             }
               dispatch({ "type": "FETCH_GRAPHS_SUCCESS", payload: output });

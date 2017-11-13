@@ -23267,40 +23267,27 @@
 	        //get data from all urls
 	        _axios2["default"].all(promiseArray).then(function (results) {
 	          var output = [];
-
-	          var _loop = function (result) {
+	          for (var result in results) {
 	            var first_data_name = Object.keys(results[result].data.descriptions)[0];
 	            var second_data_name = Object.keys(results[result].data.descriptions)[1];
 	            var first_data_description = results[result].data.descriptions[first_data_name];
 	            var second_data_description = results[result].data.descriptions[second_data_name];
-	            var first_data = [];
-	            var second_data = [];
-	            results[result].data[first_data_name].map(function (el) {
-	              var date = new Date(Number(el.time_added.N));
+	            var input_data = [];
+	            for (var i = 0; i < results[result].data.data.name.length; i++) {
+	              var date = new Date(Number(results[result].data.data.name[i]));
 	              var element = {
 	                name: date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
 	              };
-	              element[first_data_description] = Number(el.value.N);
-	              first_data.push(element);
-	            });
-	            results[result].data[second_data_name].map(function (el) {
-	              var date = new Date(Number(el.time_added.N));
-	              var element = {
-	                name: date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
-	              };
-	              element[second_data_description] = Number(el.value.S);
-	              second_data.push(element);
-	            });
+	              element[first_data_description] = Number(results[result].data.data[first_data_description][i]);
+	              element[second_data_description] = Number(results[result].data.data[second_data_description][i]);
+	              input_data.push(element);
+	            };
 	            output.push({
 	              descriptions: [first_data_description, second_data_description],
-	              data: [first_data, second_data],
+	              data: input_data,
 	              correlation: results[result].data.correlation,
 	              corr: true
 	            });
-	          };
-
-	          for (var result in results) {
-	            _loop(result);
 	          }
 	          dispatch({ "type": "FETCH_GRAPHS_SUCCESS", payload: output });
 	          dispatch({ "type": "LOADING_STATE", payload: false });
@@ -42670,8 +42657,7 @@
 	                  graph.correlation,
 	                  ' '
 	                ),
-	                _react2['default'].createElement(_chart2['default'], { description: graph.descriptions[0], data: graph.data[0] }),
-	                _react2['default'].createElement(_chart2['default'], { description: graph.descriptions[1], data: graph.data[1] })
+	                _react2['default'].createElement(_chart2['default'], { description: graph.descriptions, data: graph.data })
 	              );
 	            });
 	          } else {
@@ -42752,13 +42738,20 @@
 	              { id: 'colorUv', x1: '0', y1: '0', x2: '0', y2: '1' },
 	              _react2['default'].createElement('stop', { offset: '5%', stopColor: '#8884d8', stopOpacity: 0.8 }),
 	              _react2['default'].createElement('stop', { offset: '95%', stopColor: '#8884d8', stopOpacity: 0 })
+	            ),
+	            _react2['default'].createElement(
+	              'linearGradient',
+	              { id: 'colorUv1', x1: '0', y1: '0', x2: '0', y2: '1' },
+	              _react2['default'].createElement('stop', { offset: '5%', stopColor: '#82ca9d', stopOpacity: 0.8 }),
+	              _react2['default'].createElement('stop', { offset: '95%', stopColor: '#82ca9d', stopOpacity: 0 })
 	            )
 	          ),
 	          _react2['default'].createElement(_recharts.XAxis, { dataKey: 'name' }),
 	          _react2['default'].createElement(_recharts.YAxis, null),
 	          _react2['default'].createElement(_recharts.CartesianGrid, { strokeDasharray: '3 3' }),
 	          _react2['default'].createElement(_recharts.Tooltip, null),
-	          _react2['default'].createElement(_recharts.Area, { type: 'monotone', dataKey: this.props.description, stroke: '#8884d8', fillOpacity: 1, fill: 'url(#colorUv)' })
+	          _react2['default'].createElement(_recharts.Area, { type: 'monotone', dataKey: this.props.description[0], stroke: '#8884d8', fillOpacity: 1, fill: 'url(#colorUv)' }),
+	          _react2['default'].createElement(_recharts.Area, { type: 'monotone', dataKey: this.props.description[1], stroke: '#82ca9d', fillOpacity: 1, fill: 'url(#colorUv1)' })
 	        )
 	      );
 	    }

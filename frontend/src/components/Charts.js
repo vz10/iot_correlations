@@ -16,8 +16,7 @@ export default class Charts extends Component {
           <Paper key={graph.descriptions.toString()} zDepth={1} className="chart-wrapper">
           <h3 className="chart-name">{ graph.descriptions[0]}  via {graph.descriptions[1]} </h3>
           <h4 className="chart-name">Correlation: {graph.correlation} </h4>
-            <Chart description={graph.descriptions[0]} data={graph.data[0]} />
-            <Chart description={graph.descriptions[1]} data={graph.data[1]} />
+            <Chart description={graph.descriptions} data={graph.data} />
           </Paper>
         );
       } else {
