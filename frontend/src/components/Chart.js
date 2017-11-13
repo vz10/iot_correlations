@@ -18,7 +18,7 @@ export default class Chart extends Component {
               <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
             </linearGradient>
           </defs>
-          <XAxis dataKey="name" />
+          <XAxis dataKey="name" scale='auto'/>
           <YAxis />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />

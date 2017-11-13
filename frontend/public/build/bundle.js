@@ -42746,7 +42746,7 @@
 	              _react2['default'].createElement('stop', { offset: '95%', stopColor: '#82ca9d', stopOpacity: 0 })
 	            )
 	          ),
-	          _react2['default'].createElement(_recharts.XAxis, { dataKey: 'name' }),
+	          _react2['default'].createElement(_recharts.XAxis, { dataKey: 'name', scale: 'auto' }),
 	          _react2['default'].createElement(_recharts.YAxis, null),
 	          _react2['default'].createElement(_recharts.CartesianGrid, { strokeDasharray: '3 3' }),
 	          _react2['default'].createElement(_recharts.Tooltip, null),
