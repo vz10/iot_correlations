@@ -29,7 +29,7 @@ The frontend part is the static HTML/JS page which goes to the S3, get all the f
 
 ![alt text](./cloudcraft.png "Project structure")
 ---
-![alt text](./hardware.jpg "Project hardware")
+![alt text](./hardware.JPG "Project hardware")
 
 ##### Yes you really need numpy here in the folder because it was compiled especially for the AWS AMI which uses in the lambda containers
 
