@@ -17,7 +17,7 @@ Have you ever heard about the string theory? In physics, string theory is a theo
 
 ---
 
-Unfortunately we don't have a lot of connected sensors and not a lot of connected open data streams so there could be only a few correlations found (sometimes there even can be no correlations at all), but we a growing so I hope in nearest future there will be the plenty amount of different curious correlations. So keep in touch :) 
+Unfortunately we don't have a lot of connected sensors and not a lot of connected open data streams so there could be only a few correlations found (sometimes there even can be no correlations at all), but we a growing so I hope in nearest future there will be the plenty amount of different curious correlations. So keep in touch :)
 
 ---
 
@@ -28,6 +28,8 @@ To find correlation we have a lambda function which fired by cron event from Clo
 The frontend part is the static HTML/JS page which goes to the S3, get all the files from the bucket and creates charts based on these data.
 
 ![alt text](./cloudcraft.png "Project structure")
+---
+![alt text](./hardware.jpg "Project hardware")
 
 ##### Yes you really need numpy here in the folder because it was compiled especially for the AWS AMI which uses in the lambda containers
 
