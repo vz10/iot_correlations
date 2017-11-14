@@ -94,7 +94,7 @@ def find_correlations(event, content):
         timestamps.update(get_values(response_data[table], 'time_added'))
     for table, data in response_data.iteritems():
         for index, item in enumerate(response_data[table]):
-            item['value'] = float(item['value'].get('N', item['value'].get('S'))) + math.sin(index)*0.1
+            item['value'] = float(item['value'].get('N', item['value'].get('S'))) + math.sin(index)
     # compute interpolation and correlation
     interpolations = {}
     linspaced_timestamps = np.linspace(
@@ -116,9 +116,8 @@ def find_correlations(event, content):
     response_data['data'] = {
         "name": list(linspaced_timestamps),
     }
-    response_data['data'][data_table_desc] = list(interpolations[data_table])
-    response_data['data'][sensor_table_desc] = list(interpolations[sensor_table])
-
+    response_data['data'][data_table_desc] = [value['value'] for value in response_data[sensor_table]][-len(list(linspaced_timestamps)):]
+    response_data['data'][sensor_table_desc] = [value['value'] for value in response_data[data_table]][-len(list(linspaced_timestamps)):]
     del response_data[sensor_table]
     del response_data[data_table]
 

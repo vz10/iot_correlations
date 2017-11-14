@@ -21,7 +21,8 @@ export const asyncGetGraphs = () => dispatch => {
               let second_data_description = results[result].data.descriptions[second_data_name];
               let input_data = [];
               for (let i=0; i < results[result].data.data.name.length; i++){
-                let date = new Date(Number(results[result].data.data.name[i]));
+                let date = new Date(Number(parseInt(results[result].data.data.name[i])));
+                console.log(date, parseInt(results[result].data.data.name[i]));
                 let element = {
                     name: date.getHours() + ":" + (date.getMinutes()<10?'0':'') + date.getMinutes()
                 };

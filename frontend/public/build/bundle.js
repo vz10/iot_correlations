@@ -23274,7 +23274,8 @@
 	            var second_data_description = results[result].data.descriptions[second_data_name];
 	            var input_data = [];
 	            for (var i = 0; i < results[result].data.data.name.length; i++) {
-	              var date = new Date(Number(results[result].data.data.name[i]));
+	              var date = new Date(Number(parseInt(results[result].data.data.name[i])));
+	              console.log(date, parseInt(results[result].data.data.name[i]));
 	              var element = {
 	                name: date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
 	              };
