@@ -10,7 +10,7 @@ import numpy as np
 import boto3
 
 
-MIN_CORRELATION = 0.1
+MIN_CORRELATION = 0.01
 LINESPACED_LEN = 100
 
 
@@ -83,7 +83,7 @@ def find_correlations(event, content):
 
         if not count:
             # No reason to compare if one table is empty
-            return response_data
+            return ('Fucking no count return', response_data)
 
         item_counts.append(count)
         response_data[table] = items
@@ -118,7 +118,7 @@ def find_correlations(event, content):
     )[0, 1]
 
     if np.isnan(correlation) or correlation < MIN_CORRELATION:
-        return response_data
+        return ('Fucking not correlationreturn', response_data)
 
     response_data['name'] = map(int, linspaced_timestamps)
     response_data[data_table_desc] = [
@@ -133,10 +133,11 @@ def find_correlations(event, content):
     del response_data[data_table]
 
     response_data['correlation'] = correlation
+    response_data['descriptions'] = [data_table_desc, sensor_table_desc]
 
     s3 = boto3.resource('s3')
     object = s3.Object('iotchallenge', '{}_{}.json'.format(data_table, sensor_table))
     object.put(Body=json.dumps(response_data), ACL='public-read')
 
-    return response_data
+    return ('Fucking return', response_data)
 

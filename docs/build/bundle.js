@@ -23258,7 +23258,7 @@
 
 	      //added another test
 	      // response.data.push('https://s3-us-west-2.amazonaws.com/iotchallenge/twitter_trends_temp.json');
-
+	      debugger;
 	      if (response.data && response.data.length) {
 	        var promiseArray = response.data.map(function (url) {
 	          return _axios2["default"].get(url);
@@ -23273,13 +23273,14 @@
 	            var first_data_description = results[result].data.descriptions[first_data_name];
 	            var second_data_description = results[result].data.descriptions[second_data_name];
 	            var input_data = [];
-	            for (var i = 0; i < results[result].data.data.name.length; i++) {
-	              var date = new Date(Number(results[result].data.data.name[i]));
+
+	            for (var i = 0; i < results[result].data.name.length; i++) {
+	              var date = new Date(Number(parseInt(results[result].data.name[i])));
 	              var element = {
 	                name: date.getHours() + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
 	              };
-	              element[first_data_description] = Number(results[result].data.data[first_data_description][i]);
-	              element[second_data_description] = Number(results[result].data.data[second_data_description][i]);
+	              element[first_data_description] = Number(results[result].data[first_data_description][i]);
+	              element[second_data_description] = Number(results[result].data[second_data_description][i]);
 	              input_data.push(element);
 	            };
 	            output.push({
@@ -23295,6 +23296,9 @@
 	          console.log("axios error", error);
 	          dispatch({ "type": "LOADING_STATE", payload: false });
 	        });
+	      } else {
+	        dispatch({ "type": "FETCH_GRAPHS_SUCCESS", payload: {} });
+	        dispatch({ "type": "LOADING_STATE", payload: false });
 	      }
 	    })["catch"](function (error) {
 	      console.log("error", error);
