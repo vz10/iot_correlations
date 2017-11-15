@@ -120,7 +120,7 @@ def find_correlations(event, content):
     if np.isnan(correlation) or correlation < MIN_CORRELATION:
         return ('Fucking not correlationreturn', response_data)
 
-    response_data['name'] = map(int, linspaced_timestamps)
+    response_data['name'] = list(map(int, linspaced_timestamps))[:min_item_count]
     response_data[data_table_desc] = [
         round(value['value'], 2) for value in response_data[sensor_table]
     ][-LINESPACED_LEN:]
