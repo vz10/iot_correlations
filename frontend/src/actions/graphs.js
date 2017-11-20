@@ -13,14 +13,11 @@ export const asyncGetGraphs = () => dispatch => {
         //get data from all urls
         axios.all(promiseArray)
           .then(function(results) {
-            let output = [];          
+            let output = [];
             for (let result in results){
-              let first_data_name = Object.keys(results[result].data.descriptions)[0];
-              let second_data_name = Object.keys(results[result].data.descriptions)[1];
-              let first_data_description = results[result].data.descriptions[first_data_name];
-              let second_data_description = results[result].data.descriptions[second_data_name];
+              let first_data_description = results[result].data.descriptions[0];
+              let second_data_description = results[result].data.descriptions[1];
               let input_data = [];
-
               for (let i=0; i < results[result].data.name.length; i++){
                 let date = new Date(Number(parseInt(results[result].data.name[i])));
                 let element = {
@@ -50,7 +47,7 @@ export const asyncGetGraphs = () => dispatch => {
           });
       } else {
         dispatch({ "type": "FETCH_GRAPHS_SUCCESS", payload: {} });
-        dispatch({ "type": "LOADING_STATE", payload: false });  
+        dispatch({ "type": "LOADING_STATE", payload: false });
       }
     }).catch((error) => {
       console.log("error", error);

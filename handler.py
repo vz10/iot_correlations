@@ -122,11 +122,11 @@ def find_correlations(event, content):
 
     response_data['name'] = list(map(int, linspaced_timestamps))[:min_item_count]
     response_data[data_table_desc] = [
-        round(value['value'], 2) for value in response_data[sensor_table]
+        round(value['value'], 2) for value in response_data[data_table]
     ][-LINESPACED_LEN:]
 
     response_data[sensor_table_desc] = [
-        round(value['value'], 2) for value in response_data[data_table]
+        round(value['value'], 2) for value in response_data[sensor_table]
     ][-LINESPACED_LEN:]
 
     del response_data[sensor_table]
@@ -140,4 +140,3 @@ def find_correlations(event, content):
     object.put(Body=json.dumps(response_data), ACL='public-read')
 
     return ('Fucking return', response_data)
-

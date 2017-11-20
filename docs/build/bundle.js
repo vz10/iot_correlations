@@ -23268,12 +23268,9 @@
 	        _axios2["default"].all(promiseArray).then(function (results) {
 	          var output = [];
 	          for (var result in results) {
-	            var first_data_name = Object.keys(results[result].data.descriptions)[0];
-	            var second_data_name = Object.keys(results[result].data.descriptions)[1];
-	            var first_data_description = results[result].data.descriptions[first_data_name];
-	            var second_data_description = results[result].data.descriptions[second_data_name];
+	            var first_data_description = results[result].data.descriptions[0];
+	            var second_data_description = results[result].data.descriptions[1];
 	            var input_data = [];
-
 	            for (var i = 0; i < results[result].data.name.length; i++) {
 	              var date = new Date(Number(parseInt(results[result].data.name[i])));
 	              var element = {
